@@ -5,7 +5,6 @@ import yaml
 
 from core.filters.config_manager import (
     apply_env_overrides,
-    get_secret,
     load_keywords_config,
     load_whitelist_countries,
     normalize_country,
@@ -128,39 +127,6 @@ def load_search_config() -> dict:
 def save_search_config(cfg: dict):
     with open(SEARCH_CONFIG_PATH, "w", encoding="utf-8") as f:
         yaml.dump(cfg, f, allow_unicode=True, default_flow_style=False)
-
-
-def auth_gate():
-    """访问密码门禁：设置了 APP_PASSWORD（环境变量或 st.secrets）时启用；
-    未设置则直接放行（本地开发场景）"""
-    import streamlit as st
-
-    pwd = get_secret("APP_PASSWORD")
-    if not pwd or st.session_state.get("authed"):
-        return
-
-    st.markdown(
-        flat("""
-        <div style="max-width:420px;margin:9vh auto 0;text-align:center;">
-          <div style="font-size:24px;font-weight:800;color:#2A1F22;letter-spacing:1px;">青岛啤酒 · 全球客户开拓</div>
-          <div style="font-size:12px;font-weight:700;color:#00508C;letter-spacing:4px;margin-top:6px;">TSINGTAO GLOBAL</div>
-          <div style="font-size:13px;color:#8A7F8B;margin-top:22px;">内部系统，请输入访问密码</div>
-        </div>
-        """),
-        unsafe_allow_html=True,
-    )
-    _, c, _ = st.columns([1, 1.6, 1])
-    with c:
-        with st.form("login_form"):
-            pw = st.text_input("访问密码", type="password", label_visibility="collapsed",
-                               placeholder="访问密码")
-            if st.form_submit_button("进入系统", type="primary", width="stretch"):
-                if pw == pwd:
-                    st.session_state.authed = True
-                    st.rerun()
-                else:
-                    st.error("密码错误，请重试")
-    st.stop()
 
 
 def init_session_state():

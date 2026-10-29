@@ -27,46 +27,52 @@ db.init_db()
 BASE_CSS = """
 <style>
 :root {
-  /* 取自 TSINGTAO logo 实际采样色 */
-  --ink: #2A1F22;
-  --ink-soft: #4A3B3F;
-  --muted: #7E7076;
-  --red: #00508C;
-  --red-deep: #0B2C6B;
-  --cream: #F7F5EE;
-  --warm: #8A7F8B;
+  /* TSINGTAO 品牌蓝主题（严格 Blue/Cyan 系，无紫色） */
+  --ink: #0B1C3F;          /* 深墨蓝，正文 */
+  --ink-soft: #1B2F5C;     /* 次深蓝 */
+  --muted: #5B7AA8;        /* 柔和蓝，辅助文字 */
+  --b1: #00508C;           /* 品牌蓝（logo 主色） */
+  --b2: #0B2C6B;           /* 深蓝 */
+  --b3: #1A7FC8;           /* 亮蓝 */
+  --b4: #00B4D8;           /* 科技青 */
+  --b5: #8AB4E5;           /* 极亮蓝 */
+  --paper: #EEF4FD;        /* 冷白纸色 */
   --glass: rgba(255,255,255,.55);
   --stroke: rgba(255,255,255,.88);
 }
 
 html, body, [class*="st-"] {
-  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family: "SF Pro Display", "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
 }
 #MainMenu, footer, header[data-testid="stHeader"] { display: none; }
 
-/* ===== 页面背景：logo 红 + 米白 + 暖灰的透明渐变 ===== */
+/* ===== 页面背景：冷白 + 蓝青透视渐变 + 科技网格 ===== */
 .stApp {
   background:
-    radial-gradient(940px 580px at 5% -9%, rgba(0,80,140,.145), transparent 64%),
-    radial-gradient(880px 540px at 97% -2%, rgba(11,44,107,.085), transparent 62%),
-    radial-gradient(820px 560px at 88% 97%, rgba(138,127,139,.135), transparent 66%),
-    radial-gradient(920px 640px at 12% 106%, rgba(247,245,238,.96), transparent 70%),
-    linear-gradient(168deg, #FFFCFC 0%, #FDF7F6 24%, #FAF5F3 52%, #FCF7F6 76%, #FFFBFA 100%);
+    radial-gradient(940px 640px at -8% -10%, rgba(0,80,140,.22), transparent 62%),
+    radial-gradient(900px 600px at 108% -4%, rgba(0,180,216,.14), transparent 64%),
+    radial-gradient(860px 580px at 92% 108%, rgba(11,44,107,.18), transparent 66%),
+    radial-gradient(980px 680px at 8% 112%, rgba(138,180,229,.45), transparent 72%),
+    linear-gradient(168deg, #F3F7FF 0%, #E8F0FC 28%, #EEF4FD 52%, #F5F9FE 76%, #F0F5FD 100%);
   background-attachment: fixed;
 }
 [data-testid="stAppViewContainer"] { background: transparent; }
 [data-testid="stAppViewContainer"]::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background-image:
-    linear-gradient(rgba(11,44,107,.052) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(11,44,107,.052) 1px, transparent 1px);
+    linear-gradient(rgba(11,44,107,.075) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11,44,107,.075) 1px, transparent 1px);
   background-size: 46px 46px;
   -webkit-mask-image: radial-gradient(circle at 50% 22%, #000 0%, transparent 74%);
   mask-image: radial-gradient(circle at 50% 22%, #000 0%, transparent 74%);
 }
+/* 底层渐变光（模拟透视地平线） */
 [data-testid="stAppViewContainer"]::after {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(1180px 780px at 50% 38%, transparent 56%, rgba(11,44,107,.055) 100%);
+  background:
+    radial-gradient(1200px 820px at 50% 32%, transparent 50%, rgba(0,80,140,.08) 100%),
+    radial-gradient(900px 600px at 50% 120%, rgba(0,180,216,.10), transparent 72%);
 }
 .block-container {
   padding-top: 1rem; padding-bottom: 2rem;
@@ -95,7 +101,7 @@ html, body, [class*="st-"] {
   filter: drop-shadow(0 2px 6px rgba(0,80,140,.20));
 }
 .brand-cn {
-  font-size: 16.5px; font-weight: 800; color: #2A1F22;
+  font-size: 16.5px; font-weight: 800; color: #0B1C3F;
   letter-spacing: .8px; line-height: 1.15;
 }
 .brand-en {
@@ -111,7 +117,7 @@ html, body, [class*="st-"] {
   background: rgba(255,255,255,.62);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  color: #4A3B3F; font-weight: 700; font-size: 13px; height: 38px;
+  color: #1B2F5C; font-weight: 700; font-size: 13px; height: 38px;
   box-shadow: 0 6px 18px rgba(11,44,107,.10);
   transition: all .18s ease;
 }
@@ -139,22 +145,24 @@ html, body, [class*="st-"] {
 .st-key-run_today button {
   width: 100%; height: 82px; border: none; border-radius: 20px;
   background: linear-gradient(105deg,
-      rgba(11,44,107,.92) 0%, rgba(0,80,140,.88) 34%,
-      rgba(26,127,200,.82) 66%, rgba(0,80,140,.88) 100%);
+      rgba(11,44,107,.92) 0%, rgba(0,80,140,.88) 38%,
+      rgba(26,127,200,.86) 66%, rgba(0,180,216,.82) 100%);
   background-size: 190% 100%;
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   backdrop-filter: blur(14px) saturate(160%);
-  box-shadow: 0 14px 34px rgba(0,80,140,.20),
+  box-shadow: 0 14px 34px rgba(0,80,140,.26),
               inset 0 1px 0 rgba(255,255,255,.34),
-              0 0 0 1px rgba(255,255,255,.55);
+              0 0 0 1px rgba(255,255,255,.55),
+              0 0 60px rgba(0,180,216,.18);
   transition: transform .18s ease, box-shadow .18s ease;
   animation: ctaShift 10s ease-in-out infinite;
 }
 .st-key-run_today button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 22px 48px rgba(0,80,140,.30),
+  box-shadow: 0 22px 48px rgba(0,80,140,.36),
               inset 0 1px 0 rgba(255,255,255,.44),
-              0 0 0 1px rgba(255,255,255,.78);
+              0 0 0 1px rgba(255,255,255,.78),
+              0 0 80px rgba(0,180,216,.28);
 }
 .st-key-run_today button:active { transform: translateY(0); }
 .st-key-run_today button p { opacity: 0 !important; }
@@ -162,7 +170,7 @@ html, body, [class*="st-"] {
 /* 运行中：同位置的停止按钮（暖灰玻璃，与开始明确区分） */
 .st-key-stop_search button {
   width: 100%; height: 82px; border: none; border-radius: 20px;
-  background: linear-gradient(100deg, #3A2E31 0%, #5C4C51 46%, #8A7F8B 100%);
+  background: linear-gradient(100deg, #1A2548 0%, #2A3A68 46%, #7A95BF 100%);
   background-size: 190% 100%;
   box-shadow: 0 18px 44px rgba(58,46,49,.28),
               inset 0 1px 0 rgba(255,255,255,.30);
@@ -230,9 +238,11 @@ html, body, [class*="st-"] {
   display: flex; align-items: center; justify-content: center;
 }
 .globe-stage::before {
-  content: ""; position: absolute; width: 104%; height: 104%; left: -2%; top: -2%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,80,140,.20) 44%, rgba(11,44,107,.12) 60%, transparent 74%);
+  content: ""; position: absolute; width: 114%; height: 114%; left: -7%; top: -7%;
+  border-radius: 50%; pointer-events: none;
+  background:
+    radial-gradient(circle, rgba(0,180,216,.22) 38%, rgba(0,80,140,.14) 56%, transparent 72%),
+    radial-gradient(circle at 50% 50%, transparent 58%, rgba(0,180,216,.08) 68%, transparent 80%);
   filter: blur(18px);
   animation: haloPulse 8s ease-in-out infinite;
 }
@@ -290,35 +300,35 @@ html, body, [class*="st-"] {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
 }
 .stat-num {
-  font-size: clamp(40px, 3.6vw, 58px); font-weight: 800; line-height: 1; color: #2A1F22;
+  font-size: clamp(40px, 3.6vw, 58px); font-weight: 800; line-height: 1; color: var(--ink);
   letter-spacing: -1.2px; font-variant-numeric: tabular-nums;
-  background: linear-gradient(100deg, #0B2C6B 4%, #00508C 62%, #1A7FC8 100%);
+  background: linear-gradient(100deg, var(--b2) 4%, var(--b1) 50%, var(--b3) 80%, var(--b4) 100%);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .stat-num em {
   font-style: normal; font-size: 15px; font-weight: 800; margin-left: 5px;
   letter-spacing: 0;
-  -webkit-text-fill-color: #8A7F8B;
+  -webkit-text-fill-color: #7A95BF;
 }
 .stat-label {
-  font-size: 13.5px; color: #7E7076; margin-top: 9px;
+  font-size: 13.5px; color: #5B7AA8; margin-top: 9px;
   letter-spacing: .8px; font-weight: 650;
 }
 
 /* ===== 分区标题 ===== */
 .sec-title {
   display: flex; align-items: center; gap: 9px;
-  font-size: 14px; font-weight: 800; color: #3A2E31;
+  font-size: 14px; font-weight: 800; color: #1A2548;
   margin: 6px 0 2px; letter-spacing: .4px;
 }
 .sec-title::before {
   content: ""; width: 4px; height: 15px; border-radius: 3px;
-  background: linear-gradient(180deg, #00508C, #8A7F8B);
+  background: linear-gradient(180deg, #00508C, #7A95BF);
   box-shadow: 0 0 12px rgba(0,80,140,.38);
 }
 .sec-title.sub {
-  font-size: 12.5px; font-weight: 700; color: #7E7076;
+  font-size: 12.5px; font-weight: 700; color: #5B7AA8;
   margin: 10px 0 0; letter-spacing: .3px;
 }
 .sec-title.sub::before {
@@ -328,7 +338,7 @@ html, body, [class*="st-"] {
 }
 
 /* ===== 控件外观统一 ===== */
-[data-testid="stWidgetLabel"] p { color: #4A3B3F !important; font-weight: 650; font-size: 12.8px; }
+[data-testid="stWidgetLabel"] p { color: #1B2F5C !important; font-weight: 650; font-size: 12.8px; }
 [data-baseweb="input"], [data-baseweb="select"] > div, [data-baseweb="textarea"] {
   background: rgba(255,255,255,.74) !important;
   border-radius: 11px !important;
@@ -346,8 +356,8 @@ html, body, [class*="st-"] {
   padding: 15px 18px;
   box-shadow: 0 10px 28px rgba(11,44,107,.10);
 }
-[data-testid="stMetricValue"] { color: #2A1F22; font-weight: 800; }
-[data-testid="stMetricLabel"] p { color: #7E7076 !important; font-weight: 650; font-size: 12.5px; }
+[data-testid="stMetricValue"] { color: #0B1C3F; font-weight: 800; }
+[data-testid="stMetricLabel"] p { color: #5B7AA8 !important; font-weight: 650; font-size: 12.5px; }
 [data-testid="stDataFrame"] { border-radius: 16px; overflow: hidden; }
 
 /* 主按钮 */
@@ -413,10 +423,10 @@ html, body, [class*="st-"] {
 }
 .pool-head {
   display: flex; align-items: center; gap: 8px;
-  font-size: 13.5px; font-weight: 800; color: #2A1F22; letter-spacing: .3px;
+  font-size: 13.5px; font-weight: 800; color: #0B1C3F; letter-spacing: .3px;
   padding-bottom: 4px;
 }
-.pool-sub { font-size: 10.5px; font-weight: 700; color: #8A7F8B; letter-spacing: 1.4px; }
+.pool-sub { font-size: 10.5px; font-weight: 700; color: #7A95BF; letter-spacing: 1.4px; }
 .pool-count {
   margin-left: auto; font-size: 11px; font-weight: 700; color: #00508C;
   background: rgba(0,80,140,.09);
@@ -461,15 +471,27 @@ html, body, [class*="st-"] {
   max-width: 1320px; margin: 26px auto 6px;
   padding: 22px 40px;
   border-radius: 28px;
-  background: #004480;
-  box-shadow: 0 22px 56px rgba(11,44,107,.26),
-              inset 0 1px 0 rgba(255,255,255,.16),
-              inset 0 -1px 0 rgba(0,0,0,.14);
+  background: linear-gradient(118deg, #0B2C6B 0%, #00508C 40%, #0078B8 72%, #00B4D8 100%);
+  box-shadow: 0 22px 56px rgba(11,44,107,.28),
+              inset 0 1px 0 rgba(255,255,255,.18),
+              inset 0 -1px 0 rgba(0,0,0,.18),
+              0 0 0 1px rgba(255,255,255,.06);
   position: relative; overflow: hidden;
 }
 .brand-footer::before {
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(620px 260px at 26% 120%, rgba(255,255,255,.16), transparent 70%);
+  background:
+    radial-gradient(680px 280px at 26% 120%, rgba(255,255,255,.18), transparent 70%),
+    radial-gradient(520px 220px at 80% -10%, rgba(0,180,216,.20), transparent 70%);
+}
+.brand-footer::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(108deg, transparent 0%, rgba(255,255,255,.06) 50%, transparent 100%);
+  animation: footerShift 8s ease-in-out infinite;
+}
+@keyframes footerShift {
+  0%, 100% { transform: translateX(-30%); }
+  50%      { transform: translateX(30%); }
 }
 .brand-footer img {
   width: 268px; max-width: 38vw; height: auto;
@@ -494,8 +516,6 @@ html, body, [class*="st-"] {
 """
 
 st.markdown(BASE_CSS, unsafe_allow_html=True)
-
-common.auth_gate()
 
 home_page = st.Page(home.render, title="首页", icon="🍺", default=True)
 settings_page = st.Page(settings.render, title="设置", icon="⚙️", url_path="settings")
