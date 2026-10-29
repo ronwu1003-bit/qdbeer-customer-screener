@@ -1,0 +1,15 @@
+# 青岛啤酒 2026 海外目标市场白名单（共 11 个）
+# 每行一个国家名（英文）或 ISO 代码，# 开头为注释
+# 业务人员可在此维护，也可在程序界面的「白名单国家管理」里增删
+
+Ethiopia
+Cameroon
+Angola
+Paraguay
+Chile
+Ecuador
+Croatia
+Bosnia and Herzegovina
+Lithuania
+Latvia
+Bulgaria

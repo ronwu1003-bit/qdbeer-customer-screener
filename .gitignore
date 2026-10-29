@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 本地数据（客户库、导出文件）——不上传
+data/
+
+# 密钥与本地配置——不上传
+.streamlit/secrets.toml
+config/search_config.yaml
+
+# 系统/编辑器
+.DS_Store
+Thumbs.db
+.vscode/

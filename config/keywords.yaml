@@ -1,0 +1,88 @@
+# 青岛啤酒海外客户筛选系统 - 关键词配置
+# global: 所有国家都用的通用关键词
+# by_country: 按国家/地区定制的额外关键词
+
+global:
+  - beer importer
+  - beer distributor
+  - wholesale beer supplier
+  - imported beer company
+  - craft beer distributor
+  - alcohol beverage supplier
+  - premium beer importer
+  - beer wholesale trade
+  - beer distribution company
+
+by_country:
+  "United States":
+    - american beer distributor
+    - craft beer importer usa
+    - beer wholesale california
+    - beverage distributor usa
+  "United Kingdom":
+    - uk beer importer
+    - british beer distributor
+    - beer wholesale uk
+    - pub supplier
+  "Japan":
+    - beer importer japan
+    - japanese beer distributor
+    - sake beer supplier
+    - ビール輸入会社
+  "Australia":
+    - beer importer australia
+    - australian beer distributor
+    - craft beer wholesaler
+  "Germany":
+    - bier importeur
+    - bierhändler
+    - getränkegroßhändler
+  "Singapore":
+    - beer importer singapore
+    - singapore beverage distributor
+
+  # ===== 2026 白名单市场（11 个）=====
+  "Ethiopia":
+    - beer importer ethiopia
+    - beverage distributor ethiopia
+    - beer wholesaler addis ababa
+  "Cameroon":
+    - importateur de bière cameroun
+    - distributeur boissons cameroun
+    - beer distributor cameroon
+  "Angola":
+    - importador de cerveja angola
+    - distribuidor de bebidas luanda
+    - beer importer angola
+  "Paraguay":
+    - importador de cerveza paraguay
+    - distribuidor de bebidas paraguay
+    - beer importer paraguay
+  "Chile":
+    - importador de cerveza chile
+    - distribuidor de cerveza santiago
+    - beer importer chile
+  "Ecuador":
+    - importador de cerveza ecuador
+    - distribuidor de bebidas quito
+    - beer importer ecuador
+  "Croatia":
+    - uvoznik piva hrvatska
+    - distributer pića zagreb
+    - beer importer croatia
+  "Bosnia and Herzegovina":
+    - uvoznik piva bosna
+    - distributer pića sarajevo
+    - beer importer bosnia
+  "Lithuania":
+    - alaus importuotojas
+    - alaus didmeninė prekyba
+    - beer importer lithuania
+  "Latvia":
+    - alus importētājs
+    - alus vairumtirdzniecība
+    - beer importer latvia
+  "Bulgaria":
+    - вносител на бира
+    - дистрибутор на напитки
+    - beer importer bulgaria

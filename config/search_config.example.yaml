@@ -1,0 +1,28 @@
+# 搜索渠道配置模板
+# 复制本文件为 search_config.yaml 后填写密钥；或在环境变量 / Streamlit Secrets 中设置：
+#   SERPER_API_KEY / BING_API_KEY / GOOGLE_API_KEY / GOOGLE_CX_ID / SEARCH_PROXY / APP_PASSWORD
+# 说明：国内网络下 Google/DuckDuckGo 直连不可用，Bing 网页版返回中文噪音结果。
+# 建议使用 API 渠道：Serper（免费 2500 次，google.serper.dev）或 Bing Web Search API（Azure 免费 1000 次/月）。
+
+serper:
+  api_key: ""          # Serper.dev 的 API Key，注册后免费 2500 次
+  enabled: true
+
+bing_api:
+  api_key: ""          # Azure Bing Web Search 的 Key（Ocp-Apim-Subscription-Key）
+  enabled: true
+
+google:
+  api_key: ""          # Google Custom Search API（国内需代理）
+  cx_id: ""
+  enabled: false
+
+bing:
+  enabled: false       # Bing 网页抓取兜底，国内结果不可用，建议关闭
+
+linkedin:
+  enabled: true
+  max_results_per_query: 10
+
+network:
+  proxy: ""            # 如 http://127.0.0.1:7890，留空则直连
