@@ -1,6 +1,10 @@
 """设置页：搜索渠道、API Key、关键词、白名单（后台功能，与首页交互分离）"""
+import os
+from datetime import datetime
+
 import streamlit as st
 
+from core import db as _db
 from core.filters.config_manager import (
     load_whitelist_countries,
     save_keywords_config,
@@ -154,6 +158,40 @@ def _whitelist():
         st.rerun()
 
 
+def _backup():
+    st.markdown('<div class="sec-title">数据备份与恢复</div>', unsafe_allow_html=True)
+    st.caption("线上部署的数据会在重启/重新部署后清空，请定期下载备份；需要恢复时上传备份文件即可")
+
+    c1, c2 = st.columns(2)
+    with c1:
+        if os.path.exists(_db.DB_PATH):
+            with open(_db.DB_PATH, "rb") as f:
+                payload = f.read()
+            st.download_button(
+                f"⬇️ 下载数据备份（{len(payload) / 1024:.0f} KB）",
+                data=payload,
+                file_name=f"customers_backup_{datetime.now():%Y%m%d_%H%M}.db",
+                mime="application/octet-stream",
+                width="stretch",
+            )
+        else:
+            st.info("暂无数据可备份")
+    with c2:
+        up = st.file_uploader("⬆️ 上传备份文件以恢复（会覆盖当前全部数据）", type=["db"])
+        if up is not None:
+            blob = up.getvalue()
+            if not blob.startswith(b"SQLite format 3"):
+                st.error("文件无效：不是本系统导出的 SQLite 备份")
+            elif st.button("确认恢复并覆盖当前数据", key="restore_db", type="primary"):
+                tmp = _db.DB_PATH + ".uploading"
+                with open(tmp, "wb") as f:
+                    f.write(blob)
+                os.replace(tmp, _db.DB_PATH)
+                _db.init_db()
+                st.success("已恢复备份数据")
+                st.rerun()
+
+
 def render():
     _header()
     st.write("")
@@ -168,3 +206,6 @@ def render():
 
     st.divider()
     _whitelist()
+
+    st.divider()
+    _backup()
