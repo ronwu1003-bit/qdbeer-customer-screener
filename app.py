@@ -494,7 +494,7 @@ html, body, [class*="st-"] {
   50%      { transform: translateX(30%); }
 }
 .brand-footer img {
-  width: 268px; max-width: 38vw; height: auto;
+  width: 268px; max-width: 60%; height: auto;
   position: relative; z-index: 1;
   filter: drop-shadow(0 8px 22px rgba(0,0,0,.22));
 }
@@ -514,6 +514,12 @@ html, body, [class*="st-"] {
 }
 </style>
 """
+
+# 地球贴图内嵌为 data URI（Streamlit Cloud 不开放 /app/static/ 静态目录）
+BASE_CSS = BASE_CSS.replace(
+    'url("/app/static/earth.jpg")',
+    f'url("{common.img_data_uri(os.path.join(ROOT, "assets", "earth.jpg"))}")',
+)
 
 st.markdown(BASE_CSS, unsafe_allow_html=True)
 

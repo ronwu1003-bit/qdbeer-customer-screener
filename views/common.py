@@ -58,12 +58,16 @@ def flat(html: str) -> str:
     return "".join(line.strip() for line in html.strip().splitlines())
 
 
+_MIME = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp"}
+
+
 def img_data_uri(path: str) -> str:
-    """把本地图片转成 base64 data URI（用于 HTML 内嵌）"""
+    """把本地图片转成 base64 data URI（用于 HTML 内嵌，线上静态目录不可用时也能显示）"""
     import base64
 
+    mime = _MIME.get(os.path.splitext(path)[1].lower(), "application/octet-stream")
     with open(path, "rb") as f:
-        return "data:image/png;base64," + base64.b64encode(f.read()).decode()
+        return f"data:{mime};base64," + base64.b64encode(f.read()).decode()
 
 
 LOGO_PATH = os.path.join(ROOT, "assets", "tsingtao_mark.png")
@@ -80,10 +84,11 @@ def brand_text() -> str:
 
 
 def brand_footer() -> str:
-    """首页底部品牌落款：大场景使用带狮徽标"""
-    return flat("""
+    """首页底部品牌落款：大场景使用带狮徽标（data URI 内嵌，兼容线上部署）"""
+    lion_uri = img_data_uri(os.path.join(ROOT, "assets", "tsingtao_lion.webp"))
+    return flat(f"""
     <div class="brand-footer">
-      <img src="/app/static/tsingtao_lion.png" alt="TSINGTAO"/>
+      <img src="{lion_uri}" alt="TSINGTAO"/>
       <div class="bf-text">
         <div class="bf-cn">青岛啤酒</div>
         <div class="bf-en">TSINGTAO</div>
