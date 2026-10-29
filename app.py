@@ -208,8 +208,8 @@ html, body, [class*="st-"] {
 @keyframes langFade {
   0%    { opacity: 0; transform: translateY(9px); }
   1.8%  { opacity: 1; transform: translateY(0); }
-  10.2% { opacity: 1; transform: translateY(0); }
-  12%   { opacity: 0; transform: translateY(-9px); }
+  8.2%  { opacity: 1; transform: translateY(0); }
+  10%   { opacity: 0; transform: translateY(-9px); }
   100%  { opacity: 0; }
 }
 
