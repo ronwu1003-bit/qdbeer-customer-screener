@@ -114,7 +114,7 @@ def _keywords():
     cols = st.columns(3)
     for i, kw in enumerate(global_kw):
         with cols[i % 3]:
-            if st.checkbox(f"❌ {kw}", key=f"del_kw_{kw}"):
+            if st.checkbox(kw, key=f"del_kw_{kw}"):
                 to_delete.append(kw)
     if to_delete and st.button("🗑️ 删除选中关键词", key="del_kw_btn"):
         for kw in to_delete:
@@ -148,7 +148,7 @@ def _whitelist():
     cols = st.columns(4)
     for i, c in enumerate(sorted(current)):
         with cols[i % 4]:
-            if st.checkbox(f"❌ {c.title()}", key=f"del_c_{c}"):
+            if st.checkbox(c.title(), key=f"del_c_{c}"):
                 to_remove.append(c)
     if to_remove and st.button("🗑️ 删除选中国家", key="del_c_btn"):
         for c in to_remove:
